@@ -33,9 +33,9 @@ abstract class SimpleReduxBloc<S, T> implements ReduxBloc<S, T> {
   @override
   Stream<WareContext> applyMiddleware(Stream<WareContext> input) {
     return input.asyncMap((context) async {
-      if (context.action is ReduxPrivateAction && context.action.packageName != moduleName) {
-        return context;
-      }
+//      if (context.action is ReduxPrivateAction && context.action.packageName != moduleName) {
+//        return context;
+//      }
       return context.copyWith(await middleware(
         context.dispatcher,
         ReduxState(moduleName: moduleName, state: context.state),
@@ -53,9 +53,9 @@ abstract class SimpleReduxBloc<S, T> implements ReduxBloc<S, T> {
         accumulator.state.stateMap[moduleName] = reducer(accumulator.action, moduleState, privateModuleState);
       }
       if (privateModuleState is T) {
-        if (!(accumulator.action is ReduxPrivateAction && accumulator.action.packageName != moduleName)) {
-          accumulator.state.stateMap['_$moduleName'] = privateReducer(accumulator.action, moduleState, privateModuleState);
-        }
+//        if (!(accumulator.action is ReduxPrivateAction && accumulator.action.packageName != moduleName)) {
+        accumulator.state.stateMap['_$moduleName'] = privateReducer(accumulator.action, moduleState, privateModuleState);
+//        }
       }
       return accumulator.copyWith(accumulator.state);
     });
@@ -64,9 +64,9 @@ abstract class SimpleReduxBloc<S, T> implements ReduxBloc<S, T> {
   @override
   Stream<WareContext> applyAfterware(Stream<WareContext> input) {
     return input.asyncMap((context) async {
-      if (context.action is ReduxPrivateAction && context.action.packageName != moduleName) {
-        return context;
-      }
+//      if (context.action is ReduxPrivateAction && context.action.packageName != moduleName) {
+//        return context;
+//      }
       return context.copyWith(await afterware(
         context.dispatcher,
         ReduxState(moduleName: moduleName, state: context.state),
