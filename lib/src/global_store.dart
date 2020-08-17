@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'redux_action.dart';
 import 'redux_bloc.dart';
 import 'redux_state.dart';
@@ -16,9 +18,7 @@ class GlobalStore {
   ReduxStore store;
 
   void initStore(List<ReduxBloc> blocs) {
-    bool inProduction = bool.fromEnvironment('dart.vm.product');
-
-    store = ReduxStore(blocs: blocs, isDebug: !inProduction);
+    store = ReduxStore(blocs: blocs, isDebug: kDebugMode);
   }
 
   T publicState<T>(String name) {

@@ -9,10 +9,6 @@ abstract class ReduxAction {
 
   // Dispatch action call stack trace
   Trace currentTrace;
-
-  String get packageName {
-    return '';
-  }
 }
 
 abstract class ReduxPrivateAction extends ReduxAction {
@@ -21,6 +17,10 @@ abstract class ReduxPrivateAction extends ReduxAction {
 
   @override
   Trace currentTrace;
+
+  String get packageName {
+    return '';
+  }
 }
 
 /// An action that middleware and afterware methods can return in order to
