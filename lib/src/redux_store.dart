@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart' show BehaviorSubject;
 import 'package:stack_trace/stack_trace.dart';
 
