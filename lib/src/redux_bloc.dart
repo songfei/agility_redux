@@ -87,3 +87,79 @@ abstract class SimpleReduxBloc<S, T> implements ReduxBloc<S, T> {
   @override
   void dispose() {}
 }
+
+typedef TypedReducerFunction<S, T> = S Function(ReduxAction action, S newState, T privateState);
+typedef TypedPrivateReducerFunction<S, T> = T Function(ReduxAction action, S state, T newPrivateState);
+typedef TypedMiddlewareFunction = FutureOr<void> Function(DispatchFunction dispatcher, ReduxState state, ReduxAction action);
+
+abstract class TypedReduxBloc<S, T> extends SimpleReduxBloc<S, T> {
+  TypedReduxBloc();
+
+  Map<Type, TypedReducerFunction<S, T>> _reducerMap = {};
+  Map<Type, TypedPrivateReducerFunction<S, T>> _privateReducerMap = {};
+  Map<Type, TypedMiddlewareFunction> _middlewareMap = {};
+  Map<Type, TypedMiddlewareFunction> _afterwareMap = {};
+
+  void registerReducer(Type actionType, TypedReducerFunction<S, T> callback) {
+    _reducerMap[actionType] = callback;
+  }
+
+  void registerPrivateReducer(Type actionType, TypedPrivateReducerFunction<S, T> callback) {
+    _privateReducerMap[actionType] = callback;
+  }
+
+  void registerMiddleware(Type actionType, TypedMiddlewareFunction callback) {
+    _middlewareMap[actionType] = callback;
+  }
+
+  void registerAfterware(Type actionType, TypedMiddlewareFunction callback) {
+    _afterwareMap[actionType] = callback;
+  }
+
+  @override
+  S reducer(ReduxAction action, S state, T privateState) {
+    S newState = state;
+    _reducerMap.forEach((Type type, TypedReducerFunction<S, T> callback) {
+      if (action.runtimeType == type.runtimeType) {
+        newState = callback(action, newState, privateState);
+      }
+    });
+    return newState;
+  }
+
+  @override
+  T privateReducer(ReduxAction action, S state, T privateState) {
+    T newState = privateState;
+    _privateReducerMap.forEach((Type type, TypedPrivateReducerFunction<S, T> callback) {
+      if (action.runtimeType == type.runtimeType) {
+        newState = callback(action, state, newState);
+      }
+    });
+    return newState;
+  }
+
+  @override
+  FutureOr<ReduxAction> middleware(dispatcher, ReduxState state, ReduxAction action) {
+    _middlewareMap.forEach((Type type, TypedMiddlewareFunction callback) {
+      if (action.runtimeType == type.runtimeType) {
+        callback(dispatcher, state, action);
+      }
+    });
+    return action;
+  }
+
+  @override
+  FutureOr<ReduxAction> afterware(dispatcher, ReduxState state, ReduxAction action) {
+    _afterwareMap.forEach((Type type, TypedMiddlewareFunction callback) {
+      if (action.runtimeType == type.runtimeType) {
+        callback(dispatcher, state, action);
+      }
+    });
+    return action;
+  }
+
+  void initReducer();
+  void initPrivateReducer();
+  void initMiddleware();
+  void initAfterware();
+}
