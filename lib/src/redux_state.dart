@@ -1,5 +1,19 @@
 import 'redux_state_inner.dart';
 
+class GeneratedMessage {
+  int a;
+
+  GeneratedMessage clone() {
+    return this;
+  }
+}
+
+class ttt extends GeneratedMessage with ReduxStateItem<GeneratedMessage> {}
+
+abstract class ReduxStateItem<T> {
+  T clone();
+}
+
 class ReduxState {
   ReduxState({
     this.moduleName,
