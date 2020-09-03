@@ -47,14 +47,14 @@ abstract class SimpleReduxBloc<S, T> implements ReduxBloc<S, T> {
   @override
   Stream<Accumulator> applyReducer(Stream<Accumulator> input) {
     return input.map<Accumulator>((accumulator) {
-      dynamic moduleState = accumulator.state.stateMap[moduleName];
-      dynamic privateModuleState = accumulator.state.stateMap['_$moduleName'];
+      dynamic moduleState = accumulator.state.byName(moduleName);
+      dynamic privateModuleState = accumulator.state.byName('_$moduleName');
       if (moduleState is S) {
-        accumulator.state.stateMap[moduleName] = reducer(accumulator.action, moduleState, privateModuleState);
+        accumulator.state.update(moduleName, reducer(accumulator.action, moduleState, privateModuleState));
       }
       if (privateModuleState is T) {
 //        if (!(accumulator.action is ReduxPrivateAction && accumulator.action.packageName != moduleName)) {
-        accumulator.state.stateMap['_$moduleName'] = privateReducer(accumulator.action, moduleState, privateModuleState);
+        accumulator.state.update('_$moduleName', privateReducer(accumulator.action, moduleState, privateModuleState));
 //        }
       }
       return accumulator.copyWith(accumulator.state);

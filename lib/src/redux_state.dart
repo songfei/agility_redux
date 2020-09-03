@@ -13,19 +13,19 @@ class ReduxState {
     if (name.startsWith('_')) {
       return null;
     }
-    return _reduxStateInner.stateMap[name];
+    return _reduxStateInner.byName(name);
   }
 
   T publicState<T>() {
-    return _reduxStateInner.stateMap[moduleName];
+    return _reduxStateInner.byName(moduleName);
   }
 
   T privateState<T>() {
-    return _reduxStateInner.stateMap['_$moduleName'];
+    return _reduxStateInner.byName('_$moduleName');
   }
 
   @override
   String toString() {
-    return 'ReduxState ${_reduxStateInner.stateMap}';
+    return 'ReduxState $_reduxStateInner';
   }
 }
