@@ -10,10 +10,21 @@ class ReduxStateInner {
   final Map<String, int> _stackMap = {};
 
   void update(String name, dynamic value) {
-    _stateMap[name] = value;
+    if (_stackMap[name] != null) {
+      int index = _stackMap[name];
+      _stateMap['$name@$index'] = value;
+      print('update $name@$index ${value.hashCode}');
+    } else {
+      _stateMap[name] = value;
+    }
   }
 
   dynamic byName<T>(String name) {
+    if (_stackMap[name] != null) {
+      int index = _stackMap[name];
+      print('get $name@$index');
+      return _stateMap['$name@$index'];
+    }
     return _stateMap[name];
   }
 
@@ -23,10 +34,11 @@ class ReduxStateInner {
       int index = 0;
       if (_stackMap[name] != null) {
         index = _stackMap[name];
+        state = _stateMap['$name@$index'];
       }
       index += 1;
       _stackMap[name] = index;
-      _stateMap['$name@$index'] = _stateMap[name].clone();
+      _stateMap['$name@$index'] = state.clone();
     }
   }
 
@@ -44,5 +56,10 @@ class ReduxStateInner {
         }
       }
     }
+  }
+
+  @override
+  String toString() {
+    return '$_stateMap';
   }
 }

@@ -131,11 +131,26 @@ class ReduxStore {
     debugActionList.clear();
   }
 
+  void pushState(String name) {
+    states.value.push(name);
+    states.value.push('_$name');
+  }
+
+  void popState(String name) {
+    states.value.pop(name);
+    states.value.pop('_$name');
+  }
+
   /// Invokes the dispose method on each Bloc, so they can deallocate/close any
   /// long-lived resources.
   void dispose() {
     for (final b in _blocs) {
       b.dispose();
     }
+  }
+
+  @override
+  String toString() {
+    return 'ReduxStore${states.value}';
   }
 }
