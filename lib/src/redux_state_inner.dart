@@ -9,11 +9,14 @@ class ReduxStateInner {
 
   final Map<String, int> _stackMap = {};
 
+  Map<String, int> get stackMap {
+    return _stackMap;
+  }
+
   void update(String name, dynamic value) {
     if (_stackMap[name] != null) {
       int index = _stackMap[name];
       _stateMap['$name@$index'] = value;
-      print('update $name@$index ${value.hashCode}');
     } else {
       _stateMap[name] = value;
     }
@@ -23,13 +26,11 @@ class ReduxStateInner {
     String name, {
     Map<String, int> stackMap,
   }) {
-    print(_stateMap);
     if (stackMap == null) {
       stackMap = _stackMap;
     }
     if (stackMap[name] != null && stackMap[name] != 0) {
       int index = stackMap[name];
-      print('get $name@$index');
       return _stateMap['$name@$index'];
     }
     return _stateMap[name];

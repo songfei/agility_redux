@@ -10,7 +10,7 @@ class ReduxState {
     ReduxStateInner state,
     Map<String, int> stackMap,
   })  : _reduxStateInner = state,
-        _stackMap = stackMap ?? {};
+        _stackMap = stackMap;
 
   final String moduleName;
   final ReduxStateInner _reduxStateInner;
@@ -42,6 +42,6 @@ class ReduxState {
 
   @override
   String toString() {
-    return 'ReduxState $_reduxStateInner';
+    return 'ReduxState[$_stackMap] $_reduxStateInner';
   }
 }

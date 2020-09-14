@@ -66,6 +66,11 @@ class GlobalStore {
     store.popState(name);
   }
 
+  Map<String, int> get stackMap {
+    ReduxStateInner innerState = store.states.value;
+    return innerState.stackMap;
+  }
+
   // for debug
   void clearDebugActionList() {
     store.clearDebugActionList();
