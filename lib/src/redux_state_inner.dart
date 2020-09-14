@@ -19,9 +19,16 @@ class ReduxStateInner {
     }
   }
 
-  dynamic byName<T>(String name) {
-    if (_stackMap[name] != null) {
-      int index = _stackMap[name];
+  dynamic byName<T>(
+    String name, {
+    Map<String, int> stackMap,
+  }) {
+    print(_stateMap);
+    if (stackMap == null) {
+      stackMap = _stackMap;
+    }
+    if (stackMap[name] != null && stackMap[name] != 0) {
+      int index = stackMap[name];
       print('get $name@$index');
       return _stateMap['$name@$index'];
     }

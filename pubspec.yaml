@@ -1,7 +1,6 @@
 name: agility_redux
 description: Agility Redux is a modular, pluggable Redux state management library.
-version: 0.0.1
-author: songfei(songfei.org@qq.com)
+version: 0.0.2
 homepage: https://github.com/songfei/agility_redux
 
 environment:

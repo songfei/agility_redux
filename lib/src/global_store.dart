@@ -25,14 +25,26 @@ class GlobalStore {
     );
   }
 
-  T publicState<T>(String name) {
+  T publicState<T>(
+    String name, {
+    Map<String, int> stackMap,
+  }) {
     ReduxStateInner innerState = store.states.value;
-    return innerState.byName(name);
+    return innerState.byName(
+      name,
+      stackMap: stackMap,
+    );
   }
 
-  T privateState<T>(String name) {
+  T privateState<T>(
+    String name, {
+    Map<String, int> stackMap,
+  }) {
     ReduxStateInner innerState = store.states.value;
-    return innerState.byName('_$name');
+    return innerState.byName(
+      '_$name',
+      stackMap: stackMap,
+    );
   }
 
   void dispatch(ReduxAction action) {
@@ -40,7 +52,10 @@ class GlobalStore {
   }
 
   ReduxState reduxState(String name) {
-    return ReduxState(moduleName: name, state: store.states.value);
+    return ReduxState(
+      moduleName: name,
+      state: store.states.value,
+    );
   }
 
   void pushState(String name) {

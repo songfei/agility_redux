@@ -180,4 +180,28 @@ void main() {
     state = GlobalStore().publicState<PublicState>('test');
     expect(state.a, 100);
   });
+
+  test('stack map', () async {
+    GlobalStore().dispatch(UpdateAAction()..a = 100);
+    await wait();
+    GlobalStore().pushState('test');
+    await wait();
+    GlobalStore().dispatch(UpdateAAction()..a = 200);
+    await wait();
+    GlobalStore().pushState('test');
+    await wait();
+    GlobalStore().dispatch(UpdateAAction()..a = 300);
+    await wait();
+
+    PublicState state = GlobalStore().publicState<PublicState>(
+      'test',
+    );
+    expect(state.a, 300);
+
+    state = GlobalStore().publicState<PublicState>(
+      'test',
+      stackMap: {'test': 0},
+    );
+    expect(state.a, 100);
+  });
 }
