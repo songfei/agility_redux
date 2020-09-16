@@ -1,5 +1,6 @@
-import 'package:agility_redux/agility_redux.dart';
+import 'redux_state.dart';
 
+/// State used internally
 class ReduxStateInner {
   ReduxStateInner(
     Map<String, dynamic> stateMap,
@@ -13,6 +14,7 @@ class ReduxStateInner {
     return _stackMap;
   }
 
+  /// Update the state of a module
   void update(String name, dynamic value) {
     if (_stackMap[name] != null) {
       int index = _stackMap[name];
@@ -22,6 +24,7 @@ class ReduxStateInner {
     }
   }
 
+  /// Get the state of a module
   dynamic byName<T>(
     String name, {
     Map<String, int> stackMap,

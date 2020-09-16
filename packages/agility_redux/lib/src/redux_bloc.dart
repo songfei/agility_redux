@@ -92,6 +92,7 @@ typedef TypedReducerFunction<S, T> = S Function(ReduxAction action, S newState, 
 typedef TypedPrivateReducerFunction<S, T> = T Function(ReduxAction action, S state, T newPrivateState);
 typedef TypedMiddlewareFunction = FutureOr<void> Function(DispatchFunction dispatcher, ReduxState state, ReduxAction action);
 
+/// To reduce if judgment, you can register specific types of action handlers
 abstract class TypedReduxBloc<S, T> extends SimpleReduxBloc<S, T> {
   TypedReduxBloc();
 
@@ -100,18 +101,22 @@ abstract class TypedReduxBloc<S, T> extends SimpleReduxBloc<S, T> {
   Map<Type, TypedMiddlewareFunction> _middlewareMap = {};
   Map<Type, TypedMiddlewareFunction> _afterwareMap = {};
 
+  /// register reducer
   void registerReducer(Type actionType, TypedReducerFunction<S, T> callback) {
     _reducerMap[actionType] = callback;
   }
 
+  /// register private reducer
   void registerPrivateReducer(Type actionType, TypedPrivateReducerFunction<S, T> callback) {
     _privateReducerMap[actionType] = callback;
   }
 
+  /// register middleware
   void registerMiddleware(Type actionType, TypedMiddlewareFunction callback) {
     _middlewareMap[actionType] = callback;
   }
 
+  /// register afterware
   void registerAfterware(Type actionType, TypedMiddlewareFunction callback) {
     _afterwareMap[actionType] = callback;
   }
@@ -158,8 +163,23 @@ abstract class TypedReduxBloc<S, T> extends SimpleReduxBloc<S, T> {
     return action;
   }
 
+  @override
+  void initBloc() {
+    initReducer();
+    initPrivateReducer();
+    initMiddleware();
+    initAfterware();
+  }
+
+  /// Will be called during initialization
   void initReducer();
+
+  /// Will be called during initialization
   void initPrivateReducer();
+
+  /// Will be called during initialization
   void initMiddleware();
+
+  /// Will be called during initialization
   void initAfterware();
 }

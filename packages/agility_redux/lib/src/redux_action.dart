@@ -11,6 +11,7 @@ abstract class ReduxAction {
   Trace currentTrace;
 }
 
+/// Private redux action, receives action only for specified modules.
 abstract class ReduxPrivateAction extends ReduxAction {
   @override
   int timestamp;
