@@ -2,19 +2,19 @@
 # See https://dart.dev/tools/pub/glossary#lockfile
 packages:
   agility_redux:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: agility_redux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.3"
+    version: "0.0.5"
   agility_redux_widget:
     dependency: "direct main"
     description:
       name: agility_redux_widget
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.5"
+    version: "0.0.7"
   async:
     dependency: transitive
     description:
@@ -75,7 +75,7 @@ packages:
     source: sdk
     version: "0.0.0"
   logging:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: logging
       url: "https://pub.dartlang.org"

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:agility_redux_widget/agility_redux_widget.dart';
+import 'package:agility_redux/agility_redux.dart';
 import 'package:flutter/widgets.dart';
 
 import 'global_navigator_inner.dart';

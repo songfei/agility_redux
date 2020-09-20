@@ -5,3 +5,5 @@
 * byName() function add stackMap
 
 ## [0.0.4] - Add Document
+
+## [0.0.5] - Add sendAppInitAction 

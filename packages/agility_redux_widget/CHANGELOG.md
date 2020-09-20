@@ -7,3 +7,5 @@
 ## [0.0.4] - Fix bug
 
 ## [0.0.6] - Add Document
+
+## [0.0.7] - Remove export agility_redux

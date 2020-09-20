@@ -7,7 +7,7 @@ packages:
       name: agility_redux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.3"
+    version: "0.0.5"
   agility_redux_bloc:
     dependency: "direct main"
     description:
@@ -21,7 +21,7 @@ packages:
       name: agility_redux_widget
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.5"
+    version: "0.0.7"
   async:
     dependency: transitive
     description:

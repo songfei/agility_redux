@@ -1,4 +1,4 @@
-import 'package:agility_redux_widget/agility_redux_widget.dart';
+import 'package:agility_redux/agility_redux.dart';
 
 import 'bloc_page.dart';
 import 'bloc_popup_box.dart';

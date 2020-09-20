@@ -29,6 +29,11 @@ class GlobalStore {
     );
   }
 
+  /// Send application initialize action
+  void sendAppInitAction(ReduxAction action) {
+    store.dispatch(action);
+  }
+
   /// Put a copy of the current state into the stack
   void pushState(String name) {
     store.pushState(name);
