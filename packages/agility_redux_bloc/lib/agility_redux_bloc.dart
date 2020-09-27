@@ -1,7 +1,7 @@
 library agility_redux_bloc;
 
-export 'package:agility_redux/agility_redux.dart';
-export 'package:agility_redux_widget/agility_redux_widget.dart' hide GlobalStore;
+export 'package:agility_redux/agility_redux.dart' hide GlobalStore;
+export 'package:agility_redux_widget/agility_redux_widget.dart';
 
 export 'src/bloc.dart';
 export 'src/bloc_manager.dart';
