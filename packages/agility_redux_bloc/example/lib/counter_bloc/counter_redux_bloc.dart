@@ -1,9 +1,6 @@
 import 'dart:async';
 
 import 'package:agility_redux_bloc/agility_redux_bloc.dart';
-import 'package:logging/logging.dart';
-
-final Logger _log = Logger('CounterReduxBloc');
 
 class CounterAddAction extends ReduxAction {}
 

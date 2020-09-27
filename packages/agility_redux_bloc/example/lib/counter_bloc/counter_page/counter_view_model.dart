@@ -2,7 +2,7 @@ import 'package:agility_redux_bloc/agility_redux_bloc.dart';
 
 import '../counter_redux_bloc.dart';
 
-class CounterViewModel {
+class CounterViewModel extends ReduxViewModel {
   CounterViewModel({
     this.number,
   });

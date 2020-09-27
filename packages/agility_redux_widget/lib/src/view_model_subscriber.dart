@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:agility_redux/agility_redux_inner.dart';
+import 'package:agility_redux_widget/src/redux_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -11,13 +12,13 @@ import 'store_provider.dart';
 /// Accepts a [BuildContext] and ViewModel and builds a Widget in response. A
 /// [DispatchFunction] is provided so widgets in the returned subtree can
 /// dispatch new actions to the Store in response to UI events.
-typedef ViewModelWidgetBuilder<V> = Widget Function(BuildContext context, DispatchFunction dispatcher, V viewModel);
+typedef ViewModelWidgetBuilder<V extends ReduxViewModel> = Widget Function(BuildContext context, DispatchFunction dispatcher, V viewModel);
 
 /// Creates a new view model instance from the given state object. This method
 /// should be used to narrow or filter the data present in [state] to the
 /// minimum required by the [ViewModelWidgetBuilder] the converter will be used
 /// with.
-typedef ViewModelConverter<V> = V Function(ReduxState state);
+typedef ViewModelConverter<V extends ReduxViewModel> = V Function(ReduxState state);
 
 /// Transforms a stream of state objects found via [StoreProvider] into a stream
 /// of view models, and builds a [Widget] each time a distinctly new view model
@@ -30,7 +31,7 @@ typedef ViewModelConverter<V> = V Function(ReduxState state);
 /// [builder]. Any state changes emitted by the Store that don't impact the
 /// view model used by a particular [ViewModelSubscriber] are ignored by it.
 ///
-class ViewModelSubscriber<V> extends StatelessWidget {
+class ViewModelSubscriber<V extends ReduxViewModel> extends StatelessWidget {
   ViewModelSubscriber({
     @required this.converter,
     @required this.builder,
@@ -57,7 +58,7 @@ class ViewModelSubscriber<V> extends StatelessWidget {
 }
 
 /// Does the actual work for [ViewModelSubscriber].
-class _ViewModelStreamBuilder<V> extends StatefulWidget {
+class _ViewModelStreamBuilder<V extends ReduxViewModel> extends StatefulWidget {
   _ViewModelStreamBuilder({
     @required this.dispatcher,
     @required this.stream,
@@ -80,7 +81,7 @@ class _ViewModelStreamBuilder<V> extends StatefulWidget {
 
 /// Subscribes to a stream of app state objects, converts each one into a view
 /// model, and then uses it to rebuild its children.
-class _ViewModelStreamBuilderState<V> extends State<_ViewModelStreamBuilder<V>> {
+class _ViewModelStreamBuilderState<V extends ReduxViewModel> extends State<_ViewModelStreamBuilder<V>> {
   V _latestViewModel;
   StreamSubscription<V> _subscription;
 
@@ -91,17 +92,23 @@ class _ViewModelStreamBuilderState<V> extends State<_ViewModelStreamBuilder<V>> 
       stackMap: widget.stackMap,
     ));
     _subscription = widget.stream
-        .map<V>((s) => widget.converter(
-              ReduxState(
-                state: s,
-                moduleName: widget.moduleName,
-                stackMap: widget.stackMap,
-              ),
-            ))
+        .map<V>(
+          (s) => widget.converter(
+            ReduxState(
+              state: s,
+              moduleName: widget.moduleName,
+              stackMap: widget.stackMap,
+            ),
+          ),
+        )
         .distinct()
-        .listen((viewModel) {
-      setState(() => _latestViewModel = viewModel);
-    });
+        .listen(
+      (viewModel) {
+        if (viewModel != _latestViewModel) {
+          setState(() => _latestViewModel = viewModel);
+        }
+      },
+    );
   }
 
   @override
