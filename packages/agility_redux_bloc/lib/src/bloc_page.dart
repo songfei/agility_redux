@@ -44,6 +44,9 @@ abstract class BlocPageRoute<T> extends PageRoute<T> {
   }
 
   @override
+  bool get opaque => true;
+
+  @override
   Widget buildPage(
     BuildContext context,
     Animation<double> animation,
@@ -56,7 +59,7 @@ abstract class BlocPageRoute<T> extends PageRoute<T> {
           stackMap: Map.from(GlobalStore().stackMap ?? {}),
           child: ModelNameProvider(
             blocName: name.split('/')[0] ?? '',
-            child: build(context),
+            child: buildWithAnimation(context, animation, secondaryAnimation),
           ),
         ));
   }
@@ -83,7 +86,13 @@ abstract class BlocPageRoute<T> extends PageRoute<T> {
   @override
   String get debugLabel => '${super.debugLabel}(${settings.name})';
 
-  Widget build(BuildContext context);
+  Widget build(BuildContext context) {
+    throw UnimplementedError();
+  }
+
+  Widget buildWithAnimation(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+    return build(context);
+  }
 
   /// Called when the page is initialized
   void init() {}

@@ -38,7 +38,7 @@ abstract class BlocPopupBoxRoute<T> extends ModalRoute<T> {
       style: Theme.of(context).textTheme.bodyText2,
       child: ModelNameProvider(
         blocName: name.split('/')[0] ?? '',
-        child: build(context),
+        child: buildWithAnimation(context, animation, secondaryAnimation),
       ),
     );
   }
@@ -52,5 +52,11 @@ abstract class BlocPopupBoxRoute<T> extends ModalRoute<T> {
   @override
   Duration get transitionDuration => Duration(milliseconds: 300);
 
-  Widget build(BuildContext context);
+  Widget build(BuildContext context) {
+    throw UnimplementedError();
+  }
+
+  Widget buildWithAnimation(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+    return build(context);
+  }
 }
