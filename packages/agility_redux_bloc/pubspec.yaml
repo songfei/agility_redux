@@ -1,6 +1,6 @@
 name: agility_redux_bloc
 description: Agility Redux is a modular, pluggable Redux state management library.
-version: 0.0.2
+version: 0.0.7
 homepage: https://github.com/songfei/agility_redux
 
 environment:
@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
   logging: ^0.11.4
   agility_redux: ^0.0.5
-  agility_redux_widget: ^0.0.7
+  agility_redux_widget: ^0.0.12
 
 dev_dependencies:
   flutter_test:

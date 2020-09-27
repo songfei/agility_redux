@@ -9,3 +9,7 @@
 ## [0.0.6] - Add Document
 
 ## [0.0.7] - Remove export agility_redux
+
+## [0.0.11] - ViewModel must override == function
+
+## [0.0.12] - fix rebuild 
