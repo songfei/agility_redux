@@ -30,7 +30,16 @@ abstract class BlocPageRoute<T> extends PageRoute<T> {
   final bool maintainState = true;
 
   @override
-  Duration get transitionDuration => const Duration(milliseconds: 300);
+  Duration get transitionDuration {
+    Map arguments = settings.arguments as Map;
+    if (arguments != null && arguments['disableAnimate'] is bool && arguments['disableAnimate']) {
+      return Duration.zero;
+    }
+    return Duration(milliseconds: 300);
+  }
+
+  @override
+  Duration get reverseTransitionDuration => Duration(milliseconds: 300);
 
   @override
   Color get barrierColor => null;

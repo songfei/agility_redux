@@ -78,11 +78,13 @@ class BlocManager {
   }
 
   /// Initialize store
-  void initStore({bool inProduction}) {
+  void initStore({
+    bool isDebug = false,
+  }) {
     List<ReduxBloc> list = [];
     list.addAll(reduxBlocList);
 
-    GlobalStore().initStore(list);
+    GlobalStore().initStore(list, isDebug: isDebug);
   }
 
   /// Send application initialization Action
@@ -135,13 +137,26 @@ class BlocManager {
 
   /// Generate widget
   /// You can use the widget of other modules without import module
-  Widget generateWidget(String widgetName, {Map<String, dynamic> arguments}) {
+  Widget generateWidget(BuildContext context, String widgetName, {Map<String, dynamic> arguments, Widget child}) {
     BlocWidgetBuilder widgetBuilder = widgetMap['$widgetName@$pageLayoutType'];
     widgetBuilder ??= widgetMap[widgetName];
     if (widgetBuilder != null) {
+      String parentModelName = ModelNameProvider.of(context);
+      Widget realChild = child;
+      if (parentModelName != null && parentModelName.isNotEmpty && child != null) {
+        realChild = ModelNameProvider(
+          blocName: parentModelName,
+          child: Builder(
+            builder: (BuildContext context) {
+              return child;
+            },
+          ),
+        );
+      }
+
       return ModelNameProvider(
         blocName: widgetName.split('/')[0] ?? '',
-        child: widgetBuilder(arguments),
+        child: widgetBuilder(arguments, realChild),
       );
     } else {
       return Container(

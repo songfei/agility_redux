@@ -11,7 +11,7 @@ class ModelNameProvider extends InheritedWidget {
 
   static String of(BuildContext context) {
     ModelNameProvider widget = context.dependOnInheritedWidgetOfExactType<ModelNameProvider>();
-    return widget.blocName;
+    return widget?.blocName;
   }
 
   @override

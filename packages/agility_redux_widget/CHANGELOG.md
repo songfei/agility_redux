@@ -12,4 +12,6 @@
 
 ## [0.0.11] - ViewModel must override == function
 
-## [0.0.12] - fix rebuild 
+## [0.0.12] - fix rebuild
+
+## [0.0.13] - fix ModelNameProvider null bug

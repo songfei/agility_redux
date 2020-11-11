@@ -8,10 +8,12 @@ import 'global_navigator_inner.dart';
 /// Represents a global navigator, because there may be multiple navigator in the application
 class GlobalNavigatorEntry {
   GlobalNavigatorEntry({
+    this.key,
     this.state,
   });
 
   final NavigatorState state;
+  final String key;
 
   bool get userGestureInProgress {
     return state.userGestureInProgress;
@@ -45,7 +47,7 @@ class GlobalNavigatorEntry {
     return state.pushNamedAndRemoveUntil<T>(
       newRouteName,
       (route) => route.settings.name == routeName,
-      arguments: arguments,
+      arguments: newArguments,
     );
   }
 
@@ -58,15 +60,57 @@ class GlobalNavigatorEntry {
     Map<String, dynamic> newArguments = Map.from(arguments ?? {});
     newArguments['##holdBlocNames##'] = holdBlocNames;
     holdBlocNames.forEach(GlobalStore().pushState);
-    return state.pushReplacementNamed<T, TO>(routeName, result: result, arguments: arguments);
+    return state.pushReplacementNamed<T, TO>(
+      routeName,
+      result: result,
+      arguments: newArguments,
+    );
+  }
+
+  Future<T> pushOrReplacement<T extends Object, TO extends Object>(
+    String routeName,
+    String replaceRouteName, {
+    TO result,
+    Map<String, dynamic> arguments,
+    List<String> holdBlocNames = const [],
+  }) {
+    Map<String, dynamic> newArguments = Map.from(arguments ?? {});
+    newArguments['##holdBlocNames##'] = holdBlocNames;
+    holdBlocNames.forEach(GlobalStore().pushState);
+
+    String topRouteName = GlobalNavigator().history(key).last;
+    if (topRouteName == replaceRouteName) {
+      return state.pushReplacementNamed<T, TO>(
+        routeName,
+        result: result,
+        arguments: newArguments,
+      );
+    } else {
+      return state.pushNamed<T>(
+        routeName,
+        arguments: newArguments,
+      );
+    }
   }
 
   void pop<T extends Object>([T result]) {
     state.pop<T>(result);
   }
 
-  Future<T> popAndPush<T extends Object, TO extends Object>(String routeName, {TO result, Map<String, dynamic> arguments}) {
-    return state.popAndPushNamed<T, TO>(routeName, result: result, arguments: arguments);
+  Future<T> popAndPush<T extends Object, TO extends Object>(
+    String routeName, {
+    TO result,
+    Map<String, dynamic> arguments,
+    List<String> holdBlocNames = const [],
+  }) {
+    Map<String, dynamic> newArguments = Map.from(arguments ?? {});
+    newArguments['##holdBlocNames##'] = holdBlocNames;
+    holdBlocNames.forEach(GlobalStore().pushState);
+    return state.popAndPushNamed<T, TO>(
+      routeName,
+      result: result,
+      arguments: newArguments,
+    );
   }
 
   void popUntil(String routeName) {

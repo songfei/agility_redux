@@ -35,7 +35,7 @@ class GlobalNavigatorInner {
   GlobalNavigatorEntry navigatorEntry(String key) {
     NavigatorState state = navigatorState(key);
     if (state != null) {
-      return GlobalNavigatorEntry(state: state);
+      return GlobalNavigatorEntry(state: state, key: key);
     }
     return null;
   }

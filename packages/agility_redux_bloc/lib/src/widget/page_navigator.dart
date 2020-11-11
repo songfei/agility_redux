@@ -12,12 +12,16 @@ class AppNavigator extends StatelessWidget {
   AppNavigator({
     this.pageNavigatorName = 'page',
     this.popupBoxNavigatorName = 'popupBox',
+    this.pageObservers = const [],
+    this.popupBoxObservers = const [],
     this.initialPage,
     this.onUnknownRoute,
   });
 
   final String pageNavigatorName;
   final String popupBoxNavigatorName;
+  final List<NavigatorObserver> pageObservers;
+  final List<NavigatorObserver> popupBoxObservers;
   final String initialPage;
   final RouteFactory onUnknownRoute;
 
@@ -36,6 +40,7 @@ class AppNavigator extends StatelessWidget {
                 _PageNavigatorObserver(
                   pageNavigatorName: popupBoxNavigatorName,
                 ),
+                ...popupBoxObservers,
               ],
             ),
           );
@@ -56,6 +61,7 @@ class AppNavigator extends StatelessWidget {
               _PageNavigatorObserver(
                 pageNavigatorName: pageNavigatorName,
               ),
+              ...pageObservers,
             ],
           );
         },
@@ -81,10 +87,12 @@ class PageNavigator extends StatelessWidget {
   PageNavigator({
     @required this.pageNavigatorName,
     @required this.initialPage,
+    this.observers = const [],
     this.onUnknownRoute,
   });
 
   final String pageNavigatorName;
+  final List<NavigatorObserver> observers;
   final String initialPage;
   final RouteFactory onUnknownRoute;
 
@@ -105,7 +113,8 @@ class PageNavigator extends StatelessWidget {
       observers: [
         _PageNavigatorObserver(
           pageNavigatorName: pageNavigatorName,
-        )
+        ),
+        ...observers,
       ],
     );
   }
