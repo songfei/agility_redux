@@ -1,4 +1,5 @@
 import 'package:agility_redux/agility_redux.dart';
+import 'package:agility_redux_bloc/src/bloc_function.dart';
 
 import 'bloc_page.dart';
 import 'bloc_popup_box.dart';
@@ -21,6 +22,10 @@ abstract class Bloc {
 
   /// Return the list of registered widgets
   Map<String, BlocWidgetBuilder> initialWidgetList() {
+    return {};
+  }
+
+  Map<String, BlocFunction> initialFunctionList() {
     return {};
   }
 

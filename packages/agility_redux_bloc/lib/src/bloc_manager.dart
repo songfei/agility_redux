@@ -1,4 +1,5 @@
 import 'package:agility_redux/agility_redux.dart';
+import 'package:agility_redux_bloc/agility_redux_bloc.dart';
 import 'package:agility_redux_bloc/src/bloc_widget.dart';
 import 'package:agility_redux_widget/agility_redux_widget.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class BlocManager {
   Map<String, BlocPageBuilder> pageMap = {};
   Map<String, BlocPopupBoxBuilder> popUpBoxMap = {};
   Map<String, BlocWidgetBuilder> widgetMap = {};
+  Map<String, BlocFunction> functionMap = {};
   List<ReduxBloc> reduxBlocList = [];
 
   String pageLayoutType = '';
@@ -70,6 +72,16 @@ class BlocManager {
           widgetMap['${bloc.moduleName}/$widgetName'] = widgetList[widgetName];
         } else {
           assert(false, 'same widget name');
+        }
+      }
+
+      // Register function
+      Map<String, BlocFunction> functionList = bloc.initialFunctionList();
+      for (final String functionName in functionList.keys) {
+        if (functionMap['${bloc.moduleName}/$functionName'] == null) {
+          functionMap['${bloc.moduleName}/$functionName'] = functionList[functionName];
+        } else {
+          assert(false, 'same function name');
         }
       }
     } else {
@@ -169,6 +181,15 @@ class BlocManager {
         ),
       );
     }
+  }
+
+  Future<dynamic> callFunction(String functionName, {Map<String, dynamic> arguments}) {
+    BlocFunction function = functionMap['$functionName'];
+    if (function != null) {
+      String modelName = functionName.split('/')?.first ?? '';
+      return function(arguments, GlobalStore().dispatch, GlobalStore().reduxState(modelName));
+    }
+    return null;
   }
 
   /// Reset singleton

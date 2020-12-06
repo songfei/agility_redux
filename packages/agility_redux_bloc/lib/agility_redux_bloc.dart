@@ -7,6 +7,7 @@ export 'src/bloc.dart';
 export 'src/bloc_manager.dart';
 export 'src/bloc_page.dart';
 export 'src/bloc_popup_box.dart';
+export 'src/bloc_function.dart';
 export 'src/bloc_route_settings.dart';
 export 'src/bloc_widget.dart';
 export 'src/widget/bloc_stateful_widget_state.dart';
