@@ -25,3 +25,5 @@
 ## [0.0.15] - update agility_redux
 
 ## [0.0.16] - fix state push pop bug
+
+## [0.0.17] - add bloc function
