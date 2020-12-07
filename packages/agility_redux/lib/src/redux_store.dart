@@ -105,17 +105,20 @@ class ReduxStore {
 
   static ReduxStateInner buildState(List<ReduxBloc> blocs) {
     Map<String, dynamic> stateMap = <String, dynamic>{};
+    Map<String, int> stackMap = <String, int>{};
     for (final v in blocs) {
+      stackMap[v.moduleName] = 0;
+      stackMap['_${v.moduleName}'] = 0;
       dynamic initialState = v.initialState;
       if (initialState != null) {
-        stateMap[v.moduleName] = v.initialState;
+        stateMap['${v.moduleName}@0'] = v.initialState;
       }
       dynamic initialPrivateState = v.initialPrivateState;
       if (initialPrivateState != null) {
-        stateMap['_${v.moduleName}'] = v.initialPrivateState;
+        stateMap['_${v.moduleName}@0'] = v.initialPrivateState;
       }
     }
-    return ReduxStateInner(stateMap);
+    return ReduxStateInner(stateMap: stateMap, stackMap: stackMap,);
   }
 
   void dispatch(ReduxAction action) {

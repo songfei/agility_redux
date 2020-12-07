@@ -20,11 +20,13 @@ abstract class BlocPageRoute<T> extends PageRoute<T> {
         super(settings: settings, fullscreenDialog: fullscreenDialog) {
     Map<String, dynamic> arguments = settings.arguments ?? {};
     holdBlocNames = arguments['##holdBlocNames##'] ?? [];
+    _stackMap = Map.from(GlobalStore().stackMap ?? {});
   }
 
   DateTime appearTime;
   bool isAppear = false;
   List<String> holdBlocNames;
+  Map<String, int> _stackMap;
 
   @override
   final bool maintainState = true;
@@ -65,7 +67,7 @@ abstract class BlocPageRoute<T> extends PageRoute<T> {
         scopesRoute: true,
         explicitChildNodes: true,
         child: StateStackMapProvider(
-          stackMap: Map.from(GlobalStore().stackMap ?? {}),
+          stackMap: _stackMap,
           child: ModelNameProvider(
             blocName: name.split('/')[0] ?? '',
             child: buildWithAnimation(context, animation, secondaryAnimation),

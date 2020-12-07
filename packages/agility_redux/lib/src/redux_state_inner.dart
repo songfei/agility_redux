@@ -2,13 +2,14 @@ import 'redux_state.dart';
 
 /// State used internally
 class ReduxStateInner {
-  ReduxStateInner(
-    Map<String, dynamic> stateMap,
-  ) : _stateMap = stateMap;
+  ReduxStateInner({
+    Map<String, dynamic> stateMap = const {},
+    Map<String, int> stackMap = const {},}
+      ) : _stateMap = stateMap, _stackMap = stackMap;
 
   final Map<String, dynamic> _stateMap;
 
-  final Map<String, int> _stackMap = {};
+  final Map<String, int> _stackMap ;
 
   Map<String, int> get stackMap {
     return _stackMap;
@@ -26,21 +27,22 @@ class ReduxStateInner {
 
   /// Get the state of a module
   dynamic byName<T>(
-    String name, {
-    Map<String, int> stackMap,
-  }) {
-    if (stackMap == null) {
+      String name, {
+        Map<String, int> stackMap,
+      }) {
+    if (stackMap == null || stackMap.isEmpty) {
       stackMap = _stackMap;
     }
-    if (stackMap[name] != null && stackMap[name] != 0) {
+
+    if (stackMap[name] != null) {
       int index = stackMap[name];
       return _stateMap['$name@$index'];
     }
-    return _stateMap[name];
+    return null;
   }
 
   void push(String name) {
-    var state = _stateMap[name];
+    var state = _stateMap['$name@0'];
     if (state != null && state is ReduxStateItem) {
       int index = 0;
       if (_stackMap[name] != null) {
@@ -54,13 +56,13 @@ class ReduxStateInner {
   }
 
   void pop(String name) {
-    var state = _stateMap[name];
+    var state = _stateMap['$name@0'];
     if (state != null && state is ReduxStateItem) {
       if (_stackMap[name] != null) {
         int index = _stackMap[name];
         _stateMap.remove('$name@$index');
         index -= 1;
-        if (index > 0) {
+        if (index >= 0) {
           _stackMap[name] = index;
         } else {
           _stackMap.remove(name);

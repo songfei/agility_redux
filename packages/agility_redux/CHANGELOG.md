@@ -6,4 +6,6 @@
 
 ## [0.0.4] - Add Document
 
-## [0.0.5] - Add sendAppInitAction 
+## [0.0.5] - Add sendAppInitAction
+
+## [0.0.6] - modify push pop state

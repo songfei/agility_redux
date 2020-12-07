@@ -21,3 +21,7 @@
 ## [0.0.13] - update agility_redux_widget
 
 ## [0.0.14] - fix debug mode
+
+## [0.0.15] - update agility_redux
+
+## [0.0.16] - fix state push pop bug
