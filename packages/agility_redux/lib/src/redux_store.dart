@@ -91,8 +91,9 @@ class ReduxStore {
       _afterwareController.add(WareContext(dispatch, a.state, a.action));
     });
 
-    // Without something listening, the afterware won't be executed.
-    afterwareStream.listen((_) {});
+    afterwareStream.listen((context) {
+      _actionController.add(context.action);
+    });
   }
 
   final _dispatchController = StreamController<WareContext>();
@@ -102,6 +103,10 @@ class ReduxStore {
 
   final bool isDebug;
   final List<ReduxAction> debugActionList = [];
+
+  final _actionController = StreamController<ReduxAction>.broadcast();
+
+  Stream<ReduxAction> get actionListener => _actionController.stream;
 
   static ReduxStateInner buildState(List<ReduxBloc> blocs) {
     Map<String, dynamic> stateMap = <String, dynamic>{};

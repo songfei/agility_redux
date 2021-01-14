@@ -1,5 +1,6 @@
 library agility_redux_widget;
 
+export 'src/action_subscriber.dart';
 export 'src/dispatch_subscriber.dart';
 export 'src/model_name_provider.dart';
 export 'src/redux_view_model.dart';

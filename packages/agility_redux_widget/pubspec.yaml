@@ -1,6 +1,6 @@
 name: agility_redux_widget
 description: Agility Redux is a modular, pluggable Redux state management library.
-version: 0.0.13
+version: 0.0.14
 homepage: https://github.com/songfei/agility_redux
 
 environment:
@@ -11,7 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
   rxdart: ^0.24.1
-  agility_redux: ^0.0.5
+  agility_redux: ^0.0.7
+#  agility_redux:
+#    path: ../agility_redux
 
 dev_dependencies:
   flutter_test:

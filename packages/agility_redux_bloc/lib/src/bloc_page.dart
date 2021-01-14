@@ -25,6 +25,7 @@ abstract class BlocPageRoute<T> extends PageRoute<T> {
 
   DateTime appearTime;
   bool isAppear = false;
+  bool isFirstAppear = true;
   List<String> holdBlocNames;
   Map<String, int> _stackMap;
 
@@ -126,6 +127,7 @@ abstract class BlocPageRoute<T> extends PageRoute<T> {
       if (!isAppear) {
         isAppear = true;
         appear();
+        isFirstAppear = false;
       }
     } else {
       if (isAppear) {
@@ -152,6 +154,7 @@ abstract class BlocPageRoute<T> extends PageRoute<T> {
       isAppear = true;
       init();
       appear();
+      isFirstAppear = false;
     }
     return super.didPush();
   }
@@ -164,6 +167,7 @@ abstract class BlocPageRoute<T> extends PageRoute<T> {
       isAppear = true;
       init();
       appear();
+      isFirstAppear = false;
     }
   }
 
@@ -174,6 +178,7 @@ abstract class BlocPageRoute<T> extends PageRoute<T> {
     if (!isAppear) {
       isAppear = true;
       appear();
+      isFirstAppear = false;
     }
   }
 

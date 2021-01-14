@@ -9,3 +9,5 @@
 ## [0.0.5] - Add sendAppInitAction
 
 ## [0.0.6] - modify push pop state
+
+## [0.0.7] - add actionListener

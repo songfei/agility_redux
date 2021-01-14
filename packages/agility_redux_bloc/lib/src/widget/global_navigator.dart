@@ -97,6 +97,13 @@ class GlobalNavigatorEntry {
     state.pop<T>(result);
   }
 
+  void maybePop<T extends Object>(String routeName, [T result]) {
+    String topRouteName = GlobalNavigator().history(key).last;
+    if (topRouteName == routeName) {
+      state.pop<T>(result);
+    }
+  }
+
   Future<T> popAndPush<T extends Object, TO extends Object>(
     String routeName, {
     TO result,

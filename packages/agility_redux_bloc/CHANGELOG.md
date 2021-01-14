@@ -27,3 +27,15 @@
 ## [0.0.16] - fix state push pop bug
 
 ## [0.0.17] - add bloc function
+
+## [0.0.18] - update agility_redux and agility_redux_widget
+
+## [0.0.19] - navigator add maybePop
+
+## [0.0.20] - add BlocPage isFirstAppear
+
+## [0.0.21] - fix bug
+
+## [0.0.22] - add BlocModalBottomSheetRoute
+
+## [0.0.23] - rename BlocModalBottomSheetRoute to BlocSidePopupBoxRoute

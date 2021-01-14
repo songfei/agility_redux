@@ -15,3 +15,5 @@
 ## [0.0.12] - fix rebuild
 
 ## [0.0.13] - fix ModelNameProvider null bug
+
+## [0.0.14] - add ActionSubscriber

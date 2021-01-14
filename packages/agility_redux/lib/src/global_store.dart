@@ -50,6 +50,8 @@ class GlobalStore {
     return innerState.stackMap;
   }
 
+  Stream<ReduxAction> get actionListener => store.actionListener;
+
   /// For Debug
   /// Get the public state of the module
   T publicState<T>(
