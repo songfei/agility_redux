@@ -267,7 +267,7 @@ class BlocSidePopupBoxRoute<T> extends BlocPopupBoxRoute<T> {
   }
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+  Widget buildWithAnimation(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
     final Widget bottomSheet = MediaQuery.removePadding(
       context: context,
       removeTop: true,

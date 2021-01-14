@@ -39,3 +39,5 @@
 ## [0.0.22] - add BlocModalBottomSheetRoute
 
 ## [0.0.23] - rename BlocModalBottomSheetRoute to BlocSidePopupBoxRoute
+
+## [0.0.24] - fix bug
