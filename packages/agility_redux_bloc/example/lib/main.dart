@@ -23,10 +23,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: AppNavigator(
-        initialPage: 'counter/counter_page',
-        pageNavigatorName: 'page',
-        popupBoxNavigatorName: 'popupBox',
+      home: Container(
+        color: Colors.red,
+        child: AppNavigator(
+          initialPage: 'counter/counter_page',
+          pageNavigatorName: 'page',
+          popupBoxNavigatorName: 'popupBox',
+          padding: EdgeInsets.symmetric(horizontal: 200.0),
+        ),
       ),
     );
   }

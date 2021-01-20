@@ -16,6 +16,7 @@ class AppNavigator extends StatelessWidget {
     this.popupBoxObservers = const [],
     this.initialPage,
     this.onUnknownRoute,
+    this.padding = EdgeInsets.zero,
   });
 
   final String pageNavigatorName;
@@ -24,6 +25,7 @@ class AppNavigator extends StatelessWidget {
   final List<NavigatorObserver> popupBoxObservers;
   final String initialPage;
   final RouteFactory onUnknownRoute;
+  final EdgeInsetsGeometry padding;
 
   @override
   Widget build(BuildContext context) {
@@ -53,16 +55,21 @@ class AppNavigator extends StatelessWidget {
     if (settings.name == '/') {
       return MaterialPageRoute(
         builder: (BuildContext context) {
-          return Navigator(
-            key: GlobalNavigatorInner().globalKey(pageNavigatorName),
-            onGenerateRoute: _onGeneratePageRoute,
-            initialRoute: initialPage,
-            observers: [
-              _PageNavigatorObserver(
-                pageNavigatorName: pageNavigatorName,
+          return Padding(
+            padding: padding,
+            child: ClipRect(
+              child: Navigator(
+                key: GlobalNavigatorInner().globalKey(pageNavigatorName),
+                onGenerateRoute: _onGeneratePageRoute,
+                initialRoute: initialPage,
+                observers: [
+                  _PageNavigatorObserver(
+                    pageNavigatorName: pageNavigatorName,
+                  ),
+                  ...pageObservers,
+                ],
               ),
-              ...pageObservers,
-            ],
+            ),
           );
         },
       );

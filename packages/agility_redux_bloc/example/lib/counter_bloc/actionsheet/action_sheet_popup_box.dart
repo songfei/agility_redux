@@ -9,7 +9,7 @@ class ActionSheetPopupBox extends BlocSidePopupBoxRoute {
   }) : super(settings: settings);
 
   // @override
-  // Color get barrierColor => Colors.black.withOpacity(0.1);
+  Color get barrierColor => Colors.black.withOpacity(0.7);
 
   @override
   bool get barrierDismissible => true;
