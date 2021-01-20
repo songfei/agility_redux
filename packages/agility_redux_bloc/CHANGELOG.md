@@ -42,4 +42,4 @@
 
 ## [0.0.24] - fix bug
 
-## [0.0.24] - AppNavigator add padding
+## [0.0.25] - AppNavigator add padding
