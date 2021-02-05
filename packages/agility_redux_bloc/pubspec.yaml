@@ -1,6 +1,6 @@
 name: agility_redux_bloc
 description: Agility Redux is a modular, pluggable Redux state management library.
-version: 0.0.25
+version: 0.0.27
 homepage: https://github.com/songfei/agility_redux
 
 environment:

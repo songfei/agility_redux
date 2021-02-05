@@ -14,7 +14,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.24"
+    version: "0.0.25"
   agility_redux_widget:
     dependency: transitive
     description:

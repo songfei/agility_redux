@@ -3,6 +3,8 @@ import 'package:agility_redux_widget/agility_redux_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../bloc_manager.dart';
+import '../bloc_page.dart';
+import '../bloc_popup_box.dart';
 import 'global_navigator.dart';
 import 'global_navigator_inner.dart';
 
@@ -16,7 +18,7 @@ class AppNavigator extends StatelessWidget {
     this.popupBoxObservers = const [],
     this.initialPage,
     this.onUnknownRoute,
-    this.padding = EdgeInsets.zero,
+    this.width,
   });
 
   final String pageNavigatorName;
@@ -25,7 +27,7 @@ class AppNavigator extends StatelessWidget {
   final List<NavigatorObserver> popupBoxObservers;
   final String initialPage;
   final RouteFactory onUnknownRoute;
-  final EdgeInsetsGeometry padding;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -55,22 +57,30 @@ class AppNavigator extends StatelessWidget {
     if (settings.name == '/') {
       return MaterialPageRoute(
         builder: (BuildContext context) {
-          return Padding(
-            padding: padding,
-            child: ClipRect(
-              child: Navigator(
-                key: GlobalNavigatorInner().globalKey(pageNavigatorName),
-                onGenerateRoute: _onGeneratePageRoute,
-                initialRoute: initialPage,
-                observers: [
-                  _PageNavigatorObserver(
-                    pageNavigatorName: pageNavigatorName,
-                  ),
-                  ...pageObservers,
-                ],
+          Widget child = Navigator(
+            key: GlobalNavigatorInner().globalKey(pageNavigatorName),
+            onGenerateRoute: _onGeneratePageRoute,
+            initialRoute: initialPage,
+            observers: [
+              _PageNavigatorObserver(
+                pageNavigatorName: pageNavigatorName,
               ),
-            ),
+              ...pageObservers,
+            ],
           );
+
+          if (width != null) {
+            return Center(
+              child: SizedBox(
+                width: width,
+                child: ClipRect(
+                  child: child,
+                ),
+              ),
+            );
+          } else {
+            return child;
+          }
         },
       );
     } else {
@@ -136,30 +146,38 @@ class _PageNavigatorObserver extends NavigatorObserver {
 
   @override
   void didPush(Route<dynamic> route, Route<dynamic> previousRoute) {
-    GlobalNavigator().currentPageChangedNotification.add(pageNavigatorName);
-    GlobalNavigator().history(pageNavigatorName).add(route.settings.name);
+    if (route is BlocPageRoute || route is BlocPopupBoxRoute) {
+      GlobalNavigator().currentPageChangedNotification.add(pageNavigatorName);
+      GlobalNavigator().history(pageNavigatorName).add(route.settings.name);
+    }
   }
 
   @override
   void didReplace({Route<dynamic> newRoute, Route<dynamic> oldRoute}) {
-    GlobalNavigator().currentPageChangedNotification.add(pageNavigatorName);
+    if (newRoute is BlocPageRoute || newRoute is BlocPopupBoxRoute) {
+      GlobalNavigator().currentPageChangedNotification.add(pageNavigatorName);
 
-    List<String> history = GlobalNavigator().history(pageNavigatorName);
-    history.removeLast();
-    history.add(newRoute.settings.name);
+      List<String> history = GlobalNavigator().history(pageNavigatorName);
+      history.removeLast();
+      history.add(newRoute.settings.name);
+    }
   }
 
   @override
   void didRemove(Route<dynamic> route, Route<dynamic> previousRoute) {
-    GlobalNavigator().currentPageChangedNotification.add(pageNavigatorName);
-    List<String> history = GlobalNavigator().history(pageNavigatorName);
-    history.removeWhere((element) => element == route.settings.name);
+    if (route is BlocPageRoute || route is BlocPopupBoxRoute) {
+      GlobalNavigator().currentPageChangedNotification.add(pageNavigatorName);
+      List<String> history = GlobalNavigator().history(pageNavigatorName);
+      history.removeWhere((element) => element == route.settings.name);
+    }
   }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic> previousRoute) {
-    GlobalNavigator().currentPageChangedNotification.add(pageNavigatorName);
-    List<String> history = GlobalNavigator().history(pageNavigatorName);
-    history.removeLast();
+    if (route is BlocPageRoute || route is BlocPopupBoxRoute) {
+      GlobalNavigator().currentPageChangedNotification.add(pageNavigatorName);
+      List<String> history = GlobalNavigator().history(pageNavigatorName);
+      history.removeLast();
+    }
   }
 }

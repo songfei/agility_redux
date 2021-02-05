@@ -23,14 +23,21 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Container(
-        color: Colors.red,
-        child: AppNavigator(
-          initialPage: 'counter/counter_page',
-          pageNavigatorName: 'page',
-          popupBoxNavigatorName: 'popupBox',
-          padding: EdgeInsets.symmetric(horizontal: 200.0),
-        ),
+      home: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          print('build ${constraints.maxWidth}');
+          double padding = (constraints.maxWidth - 1000) / 2.0;
+          print('padding: $padding');
+          return Container(
+            color: Colors.red,
+            child: AppNavigator(
+              initialPage: 'counter/counter_page',
+              pageNavigatorName: 'page',
+              popupBoxNavigatorName: 'popupBox',
+              width: 600,
+            ),
+          );
+        },
       ),
     );
   }
