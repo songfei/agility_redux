@@ -47,3 +47,5 @@
 ## [0.0.26] - AppNavigator remove padding and add width
 
 ## [0.0.27] - currentPageChangedNotification only for blocPage and popupBox
+
+## [0.0.28] - appear and disappear only for blocPage , fix bug

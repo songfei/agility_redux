@@ -78,8 +78,7 @@ class GlobalNavigatorEntry {
     newArguments['##holdBlocNames##'] = holdBlocNames;
     holdBlocNames.forEach(GlobalStore().pushState);
 
-    String topRouteName = GlobalNavigator().history(key).last;
-    if (topRouteName == replaceRouteName) {
+    if (_topRouteName == replaceRouteName) {
       return state.pushReplacementNamed<T, TO>(
         routeName,
         result: result,
@@ -98,8 +97,7 @@ class GlobalNavigatorEntry {
   }
 
   void maybePop<T extends Object>(String routeName, [T result]) {
-    String topRouteName = GlobalNavigator().history(key).last;
-    if (topRouteName == routeName) {
+    if (_topRouteName == routeName) {
       state.pop<T>(result);
     }
   }
@@ -122,6 +120,14 @@ class GlobalNavigatorEntry {
 
   void popUntil(String routeName) {
     state.popUntil((route) => route.settings.name == routeName);
+  }
+
+  String get _topRouteName {
+    List<String> historyList = GlobalNavigator().history(key);
+    if (historyList != null && historyList.isNotEmpty) {
+      return historyList.last;
+    }
+    return '';
   }
 }
 

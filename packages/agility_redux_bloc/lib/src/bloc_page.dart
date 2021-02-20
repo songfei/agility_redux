@@ -163,7 +163,7 @@ abstract class BlocPageRoute<T> extends PageRoute<T> {
   void didReplace(Route<dynamic> oldRoute) {
     super.didReplace(oldRoute);
 //    print('-- ${settings.name} didReplace $oldRoute');
-    if (!isAppear) {
+    if (oldRoute is BlocPageRoute && !isAppear) {
       isAppear = true;
       init();
       appear();
@@ -175,7 +175,7 @@ abstract class BlocPageRoute<T> extends PageRoute<T> {
   void didPopNext(Route<dynamic> nextRoute) {
     super.didPopNext(nextRoute);
 //    print('-- ${settings.name} didPopNext $nextRoute');
-    if (!isAppear) {
+    if (nextRoute is BlocPageRoute && !isAppear) {
       isAppear = true;
       appear();
       isFirstAppear = false;
