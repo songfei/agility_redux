@@ -46,8 +46,8 @@ class CounterWidget extends StatelessWidget {
                       ),
                       FlatButton(
                         onPressed: () {
-                          // GlobalNavigator().navigatorEntry('page').push('counter/counter_page', holdBlocNames: ['counter']);
-                          GlobalNavigator().navigatorEntry('popupBox').push('counter/action_sheet');
+                          GlobalNavigator().navigatorEntry('page').push('counter/counter_page', holdBlocNames: ['counter'], arguments: {'abc': 'abc'});
+                          // GlobalNavigator().navigatorEntry('popupBox').push('counter/action_sheet');
                         },
                         child: Text('push new page'),
                       ),

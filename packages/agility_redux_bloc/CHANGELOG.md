@@ -49,3 +49,31 @@
 ## [0.0.27] - currentPageChangedNotification only for blocPage and popupBox
 
 ## [0.0.28] - appear and disappear only for blocPage , fix bug
+
+## [0.0.29] - add AppNavigatorContainer
+
+## [0.0.30] - fix bug
+
+## [0.0.31] - change popup box barrier color
+
+## [0.0.32] - change popup box barrier color
+
+## [0.0.33] - update for flutter 2.0
+
+## [0.0.34] - fix bug
+
+## [0.0.35] - add defaultBarrierColor
+
+## [0.0.36] - upgrade agility_redux
+
+## [0.0.37] - upgrade agility_redux_widget
+
+## [0.0.38] - upgrade logging
+
+## [0.0.39] - upgrade redart
+
+## [0.0.40] - Avoid push same page
+
+## [0.0.41] - fix bug
+
+## [0.0.42] - fix bug

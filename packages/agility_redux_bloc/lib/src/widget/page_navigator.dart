@@ -31,24 +31,27 @@ class AppNavigator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _canNavigatorPop,
-      child: Builder(
-        builder: (BuildContext context) {
-          return StoreProvider(
-            store: GlobalStore().store,
-            child: Navigator(
-              key: GlobalNavigatorInner().globalKey(popupBoxNavigatorName),
-              onGenerateRoute: _onGeneratePopupBoxRoute,
-              observers: [
-                _PageNavigatorObserver(
-                  pageNavigatorName: popupBoxNavigatorName,
-                ),
-                ...popupBoxObservers,
-              ],
-            ),
-          );
-        },
+    return _AppNavigatorWidthProvider(
+      width: width,
+      child: WillPopScope(
+        onWillPop: _canNavigatorPop,
+        child: Builder(
+          builder: (BuildContext context) {
+            return StoreProvider(
+              store: GlobalStore().store,
+              child: Navigator(
+                key: GlobalNavigatorInner().globalKey(popupBoxNavigatorName),
+                onGenerateRoute: _onGeneratePopupBoxRoute,
+                observers: [
+                  _PageNavigatorObserver(
+                    pageNavigatorName: popupBoxNavigatorName,
+                  ),
+                  ...popupBoxObservers,
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -69,18 +72,7 @@ class AppNavigator extends StatelessWidget {
             ],
           );
 
-          if (width != null) {
-            return Center(
-              child: SizedBox(
-                width: width,
-                child: ClipRect(
-                  child: child,
-                ),
-              ),
-            );
-          } else {
-            return child;
-          }
+          return child;
         },
       );
     } else {
@@ -137,6 +129,50 @@ class PageNavigator extends StatelessWidget {
   }
 }
 
+class AppNavigatorContainer extends StatelessWidget {
+  AppNavigatorContainer({
+    this.child,
+    this.background,
+  });
+
+  final Widget child;
+  final Widget background;
+
+  @override
+  Widget build(BuildContext context) {
+    double width = _AppNavigatorWidthProvider.of(context);
+
+    if (width != null) {
+      Widget widget = Container(
+        width: double.infinity,
+        child: Center(
+          child: SizedBox(
+            width: width,
+            height: double.infinity,
+            child: ClipRect(
+              child: child,
+            ),
+          ),
+        ),
+      );
+
+      if (background == null) {
+        return widget;
+      } else {
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            background,
+            widget,
+          ],
+        );
+      }
+    } else {
+      return child;
+    }
+  }
+}
+
 class _PageNavigatorObserver extends NavigatorObserver {
   _PageNavigatorObserver({
     this.pageNavigatorName,
@@ -148,7 +184,12 @@ class _PageNavigatorObserver extends NavigatorObserver {
   void didPush(Route<dynamic> route, Route<dynamic> previousRoute) {
     if (route is BlocPageRoute || route is BlocPopupBoxRoute) {
       GlobalNavigator().currentPageChangedNotification.add(pageNavigatorName);
-      GlobalNavigator().history(pageNavigatorName).add(route.settings.name);
+      GlobalNavigator().history(pageNavigatorName).add(
+            HistoryItem.create(
+              name: route.settings.name,
+              arguments: route.settings.arguments,
+            ),
+          );
     }
   }
 
@@ -157,9 +198,14 @@ class _PageNavigatorObserver extends NavigatorObserver {
     if (newRoute is BlocPageRoute || newRoute is BlocPopupBoxRoute) {
       GlobalNavigator().currentPageChangedNotification.add(pageNavigatorName);
 
-      List<String> history = GlobalNavigator().history(pageNavigatorName);
+      List<HistoryItem> history = GlobalNavigator().history(pageNavigatorName);
       history.removeLast();
-      history.add(newRoute.settings.name);
+      history.add(
+        HistoryItem.create(
+          name: newRoute.settings.name,
+          arguments: newRoute.settings.arguments,
+        ),
+      );
     }
   }
 
@@ -167,8 +213,8 @@ class _PageNavigatorObserver extends NavigatorObserver {
   void didRemove(Route<dynamic> route, Route<dynamic> previousRoute) {
     if (route is BlocPageRoute || route is BlocPopupBoxRoute) {
       GlobalNavigator().currentPageChangedNotification.add(pageNavigatorName);
-      List<String> history = GlobalNavigator().history(pageNavigatorName);
-      history.removeWhere((element) => element == route.settings.name);
+      List<HistoryItem> history = GlobalNavigator().history(pageNavigatorName);
+      history.removeWhere((element) => element.name == route.settings.name);
     }
   }
 
@@ -176,8 +222,28 @@ class _PageNavigatorObserver extends NavigatorObserver {
   void didPop(Route<dynamic> route, Route<dynamic> previousRoute) {
     if (route is BlocPageRoute || route is BlocPopupBoxRoute) {
       GlobalNavigator().currentPageChangedNotification.add(pageNavigatorName);
-      List<String> history = GlobalNavigator().history(pageNavigatorName);
+      List<HistoryItem> history = GlobalNavigator().history(pageNavigatorName);
       history.removeLast();
     }
+  }
+}
+
+class _AppNavigatorWidthProvider extends InheritedWidget {
+  _AppNavigatorWidthProvider({
+    Key key,
+    this.width,
+    Widget child,
+  }) : super(key: key, child: child);
+
+  final double width;
+
+  static double of(BuildContext context) {
+    _AppNavigatorWidthProvider widget = context.dependOnInheritedWidgetOfExactType<_AppNavigatorWidthProvider>();
+    return widget?.width;
+  }
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget) {
+    return false;
   }
 }

@@ -13,6 +13,8 @@ typedef BlocPopupBoxBuilder = BlocPopupBoxRoute Function(BlocRouteSettings setti
 abstract class BlocPopupBoxRoute<T> extends ModalRoute<T> {
   BlocPopupBoxRoute({BlocRouteSettings settings}) : super(settings: settings);
 
+  static Color defaultBarrierColor = Colors.black.withOpacity(0.55);
+
   String get name {
     return settings.name;
   }
@@ -27,7 +29,7 @@ abstract class BlocPopupBoxRoute<T> extends ModalRoute<T> {
   }
 
   @override
-  Color get barrierColor => Color.fromRGBO(0, 0, 0, 0.1);
+  Color get barrierColor => defaultBarrierColor;
 
   @override
   bool get barrierDismissible => true;

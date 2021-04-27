@@ -17,3 +17,11 @@
 ## [0.0.13] - fix ModelNameProvider null bug
 
 ## [0.0.14] - add ActionSubscriber
+
+## [0.0.15] - fix bug
+
+## [0.0.16] - upgrade rxdart
+
+## [0.0.17] - upgrade logging
+
+## [0.0.18] - upgrade rxdart

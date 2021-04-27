@@ -46,7 +46,7 @@ class GlobalStore {
 
   /// Gets the index of the current state of each module in the stack
   Map<String, int> get stackMap {
-    ReduxStateInner innerState = store.states.value;
+    ReduxStateInner innerState = store.states.valueWrapper.value;
     return innerState.stackMap;
   }
 
@@ -59,7 +59,7 @@ class GlobalStore {
     Map<String, int> stackMap,
   }) {
     if (_isDebug) {
-      ReduxStateInner innerState = store.states.value;
+      ReduxStateInner innerState = store.states.valueWrapper.value;
       return innerState.byName(
         name,
         stackMap: stackMap,
@@ -75,7 +75,7 @@ class GlobalStore {
     Map<String, int> stackMap,
   }) {
     if (_isDebug) {
-      ReduxStateInner innerState = store.states.value;
+      ReduxStateInner innerState = store.states.valueWrapper.value;
       return innerState.byName(
         '_$name',
         stackMap: stackMap,
@@ -90,7 +90,7 @@ class GlobalStore {
     if (_isDebug) {
       return ReduxState(
         moduleName: name,
-        state: store.states.value,
+        state: store.states.valueWrapper.value,
       );
     }
     return null;

@@ -17,9 +17,7 @@ class StoreProvider extends StatefulWidget {
 
   static ReduxStore of(BuildContext context) {
     final Type type = _type<_InheritedStoreProvider>();
-
-    // ignore: deprecated_member_use
-    Widget widget = context.inheritFromWidgetOfExactType(type);
+    Widget widget = context.dependOnInheritedWidgetOfExactType<_InheritedStoreProvider>();
 
     if (widget == null) {
       throw Exception('Couldn\'t find a StoreProvider of the correct type ($type).');

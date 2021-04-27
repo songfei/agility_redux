@@ -79,7 +79,7 @@ class ReduxStore {
       afterwareStream = bloc.applyAfterware(afterwareStream);
     }
 
-    var reducerStream = dispatchStream.map<Accumulator>((context) => Accumulator(context.action, states.value));
+    var reducerStream = dispatchStream.map<Accumulator>((context) => Accumulator(context.action, states.valueWrapper.value));
 
     for (final ReduxBloc<dynamic, dynamic> bloc in blocs) {
       reducerStream = bloc.applyReducer(reducerStream);
@@ -123,7 +123,10 @@ class ReduxStore {
         stateMap['_${v.moduleName}@0'] = v.initialPrivateState;
       }
     }
-    return ReduxStateInner(stateMap: stateMap, stackMap: stackMap,);
+    return ReduxStateInner(
+      stateMap: stateMap,
+      stackMap: stackMap,
+    );
   }
 
   void dispatch(ReduxAction action) {
@@ -132,7 +135,7 @@ class ReduxStore {
       action.currentTrace = Trace.current();
       debugActionList.add(action);
     }
-    _dispatchController.add(WareContext(dispatch, states.value, action));
+    _dispatchController.add(WareContext(dispatch, states.valueWrapper.value, action));
   }
 
   void clearDebugActionList() {
@@ -140,13 +143,13 @@ class ReduxStore {
   }
 
   void pushState(String name) {
-    states.value.push(name);
-    states.value.push('_$name');
+    states.valueWrapper.value.push(name);
+    states.valueWrapper.value.push('_$name');
   }
 
   void popState(String name) {
-    states.value.pop(name);
-    states.value.pop('_$name');
+    states.valueWrapper.value.pop(name);
+    states.valueWrapper.value.pop('_$name');
   }
 
   /// Invokes the dispose method on each Bloc, so they can deallocate/close any
@@ -159,6 +162,6 @@ class ReduxStore {
 
   @override
   String toString() {
-    return 'ReduxStore${states.value}';
+    return 'ReduxStore${states.valueWrapper.value}';
   }
 }

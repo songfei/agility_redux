@@ -25,6 +25,16 @@ class CounterPage extends BlocPageRoute {
 
   @override
   Widget build(BuildContext context) {
-    return CounterWidget();
+    return AppNavigatorContainer(
+      child: CounterWidget(),
+      background: Column(
+        children: [
+          Container(
+            height: 56.0,
+            color: Colors.blue,
+          ),
+        ],
+      ),
+    );
   }
 }

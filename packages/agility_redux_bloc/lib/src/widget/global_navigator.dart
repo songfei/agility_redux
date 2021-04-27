@@ -28,6 +28,9 @@ class GlobalNavigatorEntry {
     Map<String, dynamic> arguments,
     List<String> holdBlocNames = const [],
   }) {
+    if (_isSameTopRoute(routeName, arguments)) {
+      return null;
+    }
     Map<String, dynamic> newArguments = Map.from(arguments ?? {});
     newArguments['##holdBlocNames##'] = holdBlocNames;
     holdBlocNames.forEach(GlobalStore().pushState);
@@ -40,6 +43,9 @@ class GlobalNavigatorEntry {
     Map<String, dynamic> arguments,
     List<String> holdBlocNames = const [],
   }) {
+    if (_isSameTopRoute(newRouteName, arguments)) {
+      return null;
+    }
     Map<String, dynamic> newArguments = Map.from(arguments ?? {});
     newArguments['##holdBlocNames##'] = holdBlocNames;
     holdBlocNames.forEach(GlobalStore().pushState);
@@ -57,6 +63,9 @@ class GlobalNavigatorEntry {
     Map<String, dynamic> arguments,
     List<String> holdBlocNames = const [],
   }) {
+    if (_isSameTopRoute(routeName, arguments)) {
+      return null;
+    }
     Map<String, dynamic> newArguments = Map.from(arguments ?? {});
     newArguments['##holdBlocNames##'] = holdBlocNames;
     holdBlocNames.forEach(GlobalStore().pushState);
@@ -74,11 +83,15 @@ class GlobalNavigatorEntry {
     Map<String, dynamic> arguments,
     List<String> holdBlocNames = const [],
   }) {
+    if (_isSameTopRoute(routeName, arguments)) {
+      return null;
+    }
     Map<String, dynamic> newArguments = Map.from(arguments ?? {});
     newArguments['##holdBlocNames##'] = holdBlocNames;
     holdBlocNames.forEach(GlobalStore().pushState);
 
     if (_topRouteName == replaceRouteName) {
+      newArguments['disableAnimate'] = true;
       return state.pushReplacementNamed<T, TO>(
         routeName,
         result: result,
@@ -123,11 +136,20 @@ class GlobalNavigatorEntry {
   }
 
   String get _topRouteName {
-    List<String> historyList = GlobalNavigator().history(key);
+    List<HistoryItem> historyList = GlobalNavigator().history(key);
     if (historyList != null && historyList.isNotEmpty) {
-      return historyList.last;
+      return historyList.last.name;
     }
     return '';
+  }
+
+  bool _isSameTopRoute(String name, Map<String, dynamic> arguments) {
+    List<HistoryItem> historyList = GlobalNavigator().history(key);
+    if (historyList != null && historyList.isNotEmpty) {
+      HistoryItem item = historyList.last;
+      return item.name == name && item.argumentsKey == generateArgumentsKey(arguments);
+    }
+    return false;
   }
 }
 
@@ -174,7 +196,7 @@ class GlobalNavigator {
     return _innerNavigator.navigatorEntry(key);
   }
 
-  List<String> history(String key) {
+  List<HistoryItem> history(String key) {
     return _innerNavigator.history(key);
   }
 

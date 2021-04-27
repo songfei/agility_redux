@@ -11,3 +11,9 @@
 ## [0.0.6] - modify push pop state
 
 ## [0.0.7] - add actionListener
+
+## [0.0.8] - upgrade rxdart
+
+## [0.0.9] - upgrade logging
+
+## [0.0.10] - upgrade rxdart
